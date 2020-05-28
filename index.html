@@ -7,8 +7,9 @@
     <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 </head>
 <body>
-    <div id="list">
-    </div>
+<div id="list">
+</div>
+<div class="flex">
     <div id="currentCat">
         <div id="content">
             <span id="name"></span>
@@ -16,6 +17,28 @@
         </div>
         <img id="catImage" src="">
     </div>
-    <script src="js/index.js"></script>
+    <div id="adminPanel">
+        <div class="input">
+            <label>Name</label>
+            <input type="text" placeholder="Name" id="inputName">
+        </div>
+        <div class="input">
+            <label>Link</label>
+            <input type="url" placeholder="URL" id="inputUrl">
+        </div>
+        <div class="input">
+            <label>Count</label>
+            <input type="number" placeholder="Count" id="inputCount">
+        </div>
+        <div>
+            <button id="cancel">Cancel</button>
+            <button id="save">Save</button>
+        </div>
+    </div>
+</div>
+<button id="showAdmin"> Admin</button>
+
+
+<script src="js/index.js"></script>
 </body>
 </html>

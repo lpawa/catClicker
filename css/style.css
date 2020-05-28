@@ -23,4 +23,31 @@ img {
 #content {
     display: flex;
     justify-content: space-between;
+    font-size: large;
+}
+
+#adminPanel {
+    display: flex;
+    visibility: hidden;
+    flex-direction: column;
+    border: 2px solid black;
+    padding: 10px;
+    margin-left: 50px;
+}
+
+input {
+    padding: 5px;
+    font-size: large;
+}
+
+.input {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+}
+label {
+    padding: 10px;
+}
+.flex {
+    display: flex;
 }

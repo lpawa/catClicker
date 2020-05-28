@@ -22,6 +22,7 @@ var model = {
         this.currentCat = this.cats[0];
     },
     currentCat: null,
+    showPanel: false,
     fetchCat: function (index) {
         return this.cats[index];
     },
@@ -35,6 +36,11 @@ var model = {
         var cat = this.currentCat;
         cat.counter +=1;
         return cat;
+    },
+    saveCat: function (name, image, counter) {
+        this.currentCat.name = name;
+        this.currentCat.image = image;
+        this.currentCat.counter = counter;
     }
 };
 
@@ -43,6 +49,7 @@ var octopus = {
         model.init();
         listView.init();
         displayCat.init();
+        adminPanel.init();
 
         var cats = model.fetchCats();
         listView.render(cats);
@@ -51,12 +58,33 @@ var octopus = {
     setCurrentCat: function(index) {
         model.setCurrentCat(index);
         displayCat.render(model.currentCat);
+        if (model.showPanel) {
+            adminPanel.show(model.currentCat);
+        }
     },
     incrementCounter: function () {
         var cat = model.incrementCounter();
         if (cat) {
             displayCat.render(cat);
+            if (model.showPanel) {
+                adminPanel.show(cat);
+            }
         }
+    },
+    showPanel: function () {
+        model.showPanel = true;
+        adminPanel.show(model.currentCat);
+    },
+    hidePanel: function () {
+        model.showPanel = false;
+        adminPanel.hide();
+    },
+    save: function (name, link, count) {
+        model.saveCat(name, link, count);
+        var cats = model.fetchCats();
+        listView.render(cats);
+        displayCat.render(model.currentCat);
+        adminPanel.show(model.currentCat);
     }
 };
 
@@ -65,6 +93,7 @@ var listView = {
         this.list = document.getElementById("list");
     },
     render: function (cats) {
+        this.list.innerHTML = "";
         cats.forEach((cat, index) => {
             var elem = document.createElement('button');
             elem.textContent = cat.name;
@@ -94,5 +123,39 @@ var displayCat = {
     }
 
 };
+
+var adminPanel = {
+    init: function () {
+        this.panel = document.getElementById("adminPanel");
+        this.name = document.getElementById("inputName");
+        this.link = document.getElementById("inputUrl");
+        this.inputCount = document.getElementById("inputCount");
+        this.showAdmin = document.getElementById("showAdmin");
+        this.cancel = document.getElementById("cancel");
+        this.save = document.getElementById("save");
+
+
+        this.showAdmin.addEventListener("click", octopus.showPanel);
+        this.cancel.addEventListener("click", octopus.hidePanel);
+        this.save.addEventListener("click", this.handleSave.bind(this));
+
+    },
+    show: function (cat) {
+        this.panel.style.visibility = "visible";
+        this.name.value = cat.name;
+        this.link.value = cat.image;
+        this.inputCount.value = cat.counter;
+    },
+    hide: function () {
+        this.panel.style.visibility = "hidden";
+    },
+    handleSave: function () {
+        var name = this.name.value;
+        var link = this.link.value;
+        var count = Number.parseInt(this.inputCount.value);
+
+        octopus.save(name, link, count);
+    },
+}
 
 octopus.init();
